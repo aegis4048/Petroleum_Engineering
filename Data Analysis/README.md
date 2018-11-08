@@ -1,4 +1,4 @@
-# To recruiters who are viewing this project
+# General Information
 
   - I started this statistical analysis project around mid-October of 2018
   - More posts will be added as I learn more, and whenever I have free time
