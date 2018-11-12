@@ -12,5 +12,6 @@ Most of all, I like the subject. I didn't find engineering particularly interest
 
 
 ### Notes:
+---
 
-Github does not do very well in rendering Jupyter notebook files. Instead of viewing files directly on Github, please visit nbviewer.jupyter.org/github/aegis4048/ to view files in a cleaner format.
+Github does not do very well in rendering Jupyter notebook files. Instead of viewing files directly on Github, please use [NB Viewer](https://nbviewer.jupyter.org/github/aegis4048/) to view my work in a cleaner format. 
