@@ -1,5 +1,5 @@
 class Values2D:
-    def __init__(self, values, azimuth):
+    def __init__(self, values=None, azimuth=None):
         self.values = values
         self.azimuth = azimuth
 
@@ -52,21 +52,7 @@ class Variogram2D:
             self.azi = [self.ensure_positive_azimuth(azi), self.ensure_positive_azimuth(azi + 90)]
 
         # variogram gamma values in two directions. They are the same for both directions in case of isotropy
-        npairs = Values2D
-        sumsq = Values2D
-        gamma = Values2D
-        for i in range(2):
-            npairs.values = np.array([self.calc_npairs(lag, self.azi[i]) for lag in self.lags])
-            sumsq.values = np.array([self.calc_sumsq(lag, self.azi[i]) for lag in self.lags])
-            gamma.values = np.divide(sumsq.values, npairs.values * 2)
-
-            npairs.azimuth = self.azi[i]
-            sumsq.azimuth = self.azi[i]
-            gamma.azimuth = self.azi[i]
-
-            self.npairs_2D.append(npairs)
-            self.sumsq_2D.append(sumsq)
-            self.gamma_2D.append(gamma)
+        self.directional_compute()
 
     # ensures positive azimuth between two data points.
     # In variograms, positive y-axis of a 2-D plane is 0 degree azimuth. Azimuth increases clockwise
@@ -112,6 +98,24 @@ class Variogram2D:
                 if self.is_within_azi_lag_tolerance(self.dazimuth[i, j], self.distances[i, j], lag, azi):
                     sumsq += self.pairwise_sq_diff[i, j]
         return sumsq
+
+    def directional_compute(self):
+        for i in range(2):
+            npairs = Values2D()
+            sumsq = Values2D()
+            gamma = Values2D()
+
+            npairs.values = np.array([self.calc_npairs(lag, self.azi[i]) for lag in self.lags])
+            sumsq.values = np.array([self.calc_sumsq(lag, self.azi[i]) for lag in self.lags])
+            gamma.values = np.divide(sumsq.values, npairs.values * 2)
+
+            npairs.azimuth = self.azi[i]
+            sumsq.azimuth = self.azi[i]
+            gamma.azimuth = self.azi[i]
+
+            self.npairs_2D.append(npairs)
+            self.sumsq_2D.append(sumsq)
+            self.gamma_2D.append(gamma)
 
 
 temp = Variogram2D(x, y, z, 100, 340, 45, 5, 10)
